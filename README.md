@@ -1,4 +1,4 @@
-# drapes.github.io
+![AMDB Logo](https://drapes.github.io/images/amdb.jpg)
 Welcome to the Algolia Movie Database!!
 
 This project is a proof of concept of the Algolia AI Search & Discovery Platform using a dataset scraped from imdb.
