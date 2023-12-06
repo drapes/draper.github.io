@@ -20,9 +20,7 @@
 		<div id= 'hits'>
 		</div>
 	</div>
-	<div id=pba style="align-items: center; justify-content: center; height: 100;">
-		<font size="+2">Results By Algolia</font> <br>
-		<img src= 'images/algolia.png' width="160" height="160"/>
+	<div id=pba style="align-items: center; justify-content: center; height: 50;">
 	</div>
 	
 	<!--Javascript to initialize search client and display results-->
@@ -51,7 +49,9 @@
 				showSubmit: false, 
 				showReset: false
 			}),
-
+			instantsearch.widgets.poweredBy({
+  				container: '#pba',
+			}),
 			instantsearch.widgets.hits({
 				container: '#hits',
 				templates: {
