@@ -1,31 +1,78 @@
-
-<!DOCTYPE html>
-<html lang="en">
 <head>
-	<title>Heap</title>
-	
-<script type="text/javascript">   
-window.heap=window.heap||[],heap.load=function(e,t){window.heap.appid=e,window.heap.config=t=t||{};var r=document.createElement("script");r.type="text/javascript",r.async=!0,r.src="https://cdn.heapanalytics.com/js/heap-"+e+".js";var a=document.getElementsByTagName("script")[0];a.parentNode.insertBefore(r,a);for(var n=function(e){return function(){heap.push([e].concat(Array.prototype.slice.call(arguments,0)))}},p=["addEventProperties","addUserProperties","clearEventProperties","identify","resetIdentity","removeEventProperty","setEventProperties","track","unsetEventProperty"],o=0;o<p.length;o++)heap[p[o]]=n(p[o])};   
-heap.load("81677435", {disableTextCapture: true}); 
-</script>
+	<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.20.0/dist/algoliasearch-lite.umd.js" integrity="sha256-DABVk+hYj0mdUzo+7ViJC6cwLahQIejFvC+my2M/wfM=" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.60.0/dist/instantsearch.production.min.js" integrity="sha256-9242vN47QUX50UG5Gf5XDO1YREWCEJRyXHofh5fsl24=" crossorigin="anonymous"></script>
+
+
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8.1.0/themes/reset-min.css" integrity="sha256-2AeJLzExpZvqLUxMfcs+4DWcMwNfpnjUeAAvEtPr0wU=" crossorigin="anonymous">
+
 </head>
 <body>
+	<div id = "searchContainer" class="searchContainer" style= "display: flex; height: 200;  align-items: center; justify-content: center;">
+		<div id= 'searchbox'>
+		</div>
+	</div>
+	<div class="resultsContainer" style= "display: flex; height: 500; justify-content: center;">
+		<div id= 'hits'>
+		</div>
+	</div>
 
-<div class="blue container" id="mainContainer">
-    <span class="choices" data-choice="unselected">
-        <ul id="choices" class="blue">
-            <li class="choice">First</li>
-            <li class="choice">Second</li>
-            <li class="choice">Third</li>
-        </ul>
-    </span>
-</div>
+<script>
 
-</div>
-  <div class="container" class="div1" width=400> 
-    <span class="innerspan"id='spaan' width=380 height=400>
-      <a href="https://www.heap.io">Heap Homepage</a>
-    </span>
-  </div>
+	const searchClient = algoliasearch('S943AQUB0L', '86dd342d20ba7629f2fe0be30eb46f1f');
+
+	const search = instantsearch({
+ 		indexName: 'movies',
+ 		searchClient,
+ 		initialUiState: {
+    		movies: {
+      			query: '',
+    		},
+		},
+  		searchFunction(helper) {
+    		const container = document.querySelector('#hits');
+    		container.style.display = helper.state.query === '' ? 'none' : '';
+
+    		helper.search();
+  		}	
+	});
+
+	search.addWidgets([
+		instantsearch.widgets.searchBox({
+			container: '#searchbox',
+			showSubmit: false, 
+			showReset: false
+		}),
+
+		instantsearch.widgets.hits({
+			container: '#hits',
+			templates: {
+				empty(results, { html }) {
+					return html`No results for <q>${results.query}</q>`;
+				},
+				item(hit, { html, components }) {
+      				return html` 
+      				<div style="display: table; height: 115; width: 520; overflow: hidden; border: 1px solid #003dff; border-radius: 5px; ">
+      				<img src="${hit.image}" width="77" height="115" />
+      					<div style="display: table-cell; vertical-align: middle; text-align: center;line-height: 1.4;">
+      					<p><b>${components.Highlight({ attribute: 'title', hit })}  </b><i> (${hit.year}) </i></p>
+      					Starring: ${hit.actors[0]}, ${hit.actors[1]}, ${hit.actors[2]}
+      					</div>
+      				</div>
+      				`;
+    			},
+			},
+
+		})
+	]);
+	
+
+
+	search.start();
+</script>
+
+
+
+
+
+
 </body>
-</html>
