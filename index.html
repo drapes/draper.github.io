@@ -1,4 +1,5 @@
 <head>
+	<title> Algolia Movie Database</title>
 	<script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.20.0/dist/algoliasearch-lite.umd.js" integrity="sha256-DABVk+hYj0mdUzo+7ViJC6cwLahQIejFvC+my2M/wfM=" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/instantsearch.js@4.60.0/dist/instantsearch.production.min.js" integrity="sha256-9242vN47QUX50UG5Gf5XDO1YREWCEJRyXHofh5fsl24=" crossorigin="anonymous"></script>
 
@@ -7,14 +8,22 @@
 
 </head>
 <body>
-	<div id = "searchContainer" class="searchContainer" style= "display: flex; height: 200;  align-items: center; justify-content: center;">
+	<div id=header style= "display: flex; height: 200;  align-items: center; justify-content: center;">
+		<img src ='images/amdb.jpg' width="262" height="134" />
+	</div>
+	<div id = "searchContainer" class="searchContainer" style= "display: flex; height: 100;  align-items: center; justify-content: center;">
 		<div id= 'searchbox'>
 		</div>
 	</div>
-	<div class="resultsContainer" style= "display: flex; height: 500; justify-content: center;">
+	<div class="resultsContainer" style= "display: flex; height: 350; justify-content: center;">
 		<div id= 'hits'>
 		</div>
 	</div>
+	<div id=pba style="align-items: center; justify-content: center; height: 100;">
+		<font size="+2">Results By Algolia</font> <br>
+		<img src= 'images/algolia.png' width="160" height="160"/>
+	</div>
+	
 
 <script>
 
