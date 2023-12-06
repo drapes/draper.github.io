@@ -13,4 +13,7 @@ A few notes on usability - Unfortunately many of the image urls in the dataset a
 
 General feedback for the Algolia team: Frist, great product the search capability is great by the time I was finished I found I had better results searching my project than searching IMDB directly. The documentation is wonderful; the feature of adding API keys automatically and allowing me to copy/paste directly from the documentation is awesome. Though I did have a minor headache near the beginning when I was using the app id of a different project.
 
-For next steps I would like to include filters for genre and rating level allowing users to make more generic searches and still find movies they would be interested in. Additionally it would be nice to fix all of the broken images and include links in the results to either an imdb page or the film's website.
+~~For next steps I would like to include filters for genre and rating level allowing users to make more generic searches and still find movies they would be interested in. Additionally it would be nice to fix all of the broken images and include links in the results to either an imdb page or the film's website. ~~
+
+
+Added refinement filter in v2, todo add rating refinement options.
