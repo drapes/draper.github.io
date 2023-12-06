@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8.1.0/themes/reset-min.css" integrity="sha256-2AeJLzExpZvqLUxMfcs+4DWcMwNfpnjUeAAvEtPr0wU=" crossorigin="anonymous">
 
 </head>
+
 <body>
 	<div id=header style= "display: flex; height: 200;  align-items: center; justify-content: center;">
 		<img src ='images/amdb.jpg' width="262" height="134" />
@@ -24,64 +25,57 @@
 		<img src= 'images/algolia.png' width="160" height="160"/>
 	</div>
 	
+	<!--Javascript to initialize search client and display results-->
+	<script>
+		const searchClient = algoliasearch('S943AQUB0L', '86dd342d20ba7629f2fe0be30eb46f1f');
 
-<script>
-
-	const searchClient = algoliasearch('S943AQUB0L', '86dd342d20ba7629f2fe0be30eb46f1f');
-
-	const search = instantsearch({
- 		indexName: 'movies',
- 		searchClient,
- 		initialUiState: {
-    		movies: {
-      			query: '',
-    		},
-		},
-  		searchFunction(helper) {
-    		const container = document.querySelector('#hits');
-    		container.style.display = helper.state.query === '' ? 'none' : '';
-
-    		helper.search();
-  		}	
-	});
-
-	search.addWidgets([
-		instantsearch.widgets.searchBox({
-			container: '#searchbox',
-			showSubmit: false, 
-			showReset: false
-		}),
-
-		instantsearch.widgets.hits({
-			container: '#hits',
-			templates: {
-				empty(results, { html }) {
-					return html`No results for <q>${results.query}</q>`;
-				},
-				item(hit, { html, components }) {
-      				return html` 
-      				<div style="display: table; height: 115; width: 520; overflow: hidden; border: 1px solid #003dff; border-radius: 5px; ">
-      				<img src="${hit.image}" width="77" height="115" />
-      					<div style="display: table-cell; vertical-align: middle; text-align: center;line-height: 1.4;">
-      					<p><b>${components.Highlight({ attribute: 'title', hit })}  </b><i> (${hit.year}) </i></p>
-      					Starring: ${hit.actors[0]}, ${hit.actors[1]}, ${hit.actors[2]}
-      					</div>
-      				</div>
-      				`;
-    			},
+		const search = instantsearch({
+	 		indexName: 'movies',
+	 		searchClient,
+	 		initialUiState: {
+	    		movies: {
+	      			query: '',
+	    		},
 			},
+	  		searchFunction(helper) {
+	    		const container = document.querySelector('#hits');
+	    		container.style.display = helper.state.query === '' ? 'none' : '';
 
-		})
-	]);
-	
+	    		helper.search();
+	  		}	
+		});
+
+		search.addWidgets([
+			instantsearch.widgets.searchBox({
+				container: '#searchbox',
+				showSubmit: false, 
+				showReset: false
+			}),
+
+			instantsearch.widgets.hits({
+				container: '#hits',
+				templates: {
+					empty(results, { html }) {
+						return html`No results for <q>${results.query}</q>`;
+					},
+					item(hit, { html, components }) {
+	      				return html` 
+	      				<div style="display: table; height: 115; width: 520; overflow: hidden; border: 1px solid #003dff; border-radius: 5px; ">
+	      				<img src="${hit.image}" width="77" height="115" />
+	      					<div style="display: table-cell; vertical-align: middle; text-align: center;line-height: 1.4;">
+	      					<p><b>${components.Highlight({ attribute: 'title', hit })}  </b><i> (${hit.year}) </i></p>
+	      					Starring: ${hit.actors[0]}, ${hit.actors[1]}, ${hit.actors[2]}
+	      					</div>
+	      				</div>
+	      				`;
+	    			},
+				},
+
+			})
+		]);
+		
 
 
-	search.start();
-</script>
-
-
-
-
-
-
+		search.start();
+	</script>
 </body>
