@@ -6,22 +6,56 @@
 
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/instantsearch.css@8.1.0/themes/reset-min.css" integrity="sha256-2AeJLzExpZvqLUxMfcs+4DWcMwNfpnjUeAAvEtPr0wU=" crossorigin="anonymous">
 
+	<style type="">
+		.container {  display: grid;
+		  grid-template-columns: 1fr 1fr 1fr;
+		  grid-template-rows: 140px 1fr 1fr;
+		  gap: 0px 0px;
+		  grid-auto-flow: row;
+		  grid-template-areas:
+		    "Header Header Header"
+		    "Left-Nav Main Main"
+		    "Left-Nav Main Main";
+		}
+
+		.Header { grid-area: Header; }
+
+		.Left-Nav { grid-area: Left-Nav; }
+
+		.Main { grid-area: Main; }
+		.center {
+  			display: block;
+  			margin-left: auto;
+  			margin-right: auto;
+		}
+		.ais-SearchBox-form{
+			display: block;
+  			padding: 0px 100px;
+  			margin-left: 60px;
+		}
+		.ais-RefinementList{
+			display: block;
+  			padding: 25px;
+		}
+
+	</style>
+
 </head>
 
 <body>
-	<div id=header style= "display: flex; height: 200;  align-items: center; justify-content: center;">
-		<img src ='images/amdb.jpg' width="262" height="134" />
-	</div>
-	<div id = "searchContainer" class="searchContainer" style= "display: flex; height: 100;  align-items: center; justify-content: center;">
-		<div id= 'searchbox'>
+	<div class="container">
+		<div class="Header">
+  			<img src ='images/amdb.jpg' width="262" height="134" class="center" />  		
+  		</div>
+  		<div class="Left-Nav">
+  			<div id=genre-list></div>
+  			<div id=pba></div>
+  		</div>
+  		<div class="Main">
+			<div id= 'searchbox'></div>
+			<div id= 'hits'></div>
 		</div>
-	</div>
-	<div class="resultsContainer" style= "display: flex; height: 450; justify-content: center;">
-		<div id= 'hits'>
-		</div>
-	</div>
-	<div id=pba style="align-items: center; justify-content: center; height: 50;">
-	</div>
+</div>
 	
 	<!--Javascript to initialize search client and display results-->
 	<script>
@@ -30,11 +64,6 @@
 		const search = instantsearch({
 	 		indexName: 'movies',
 	 		searchClient,
-	 		initialUiState: {
-	    		movies: {
-	      			query: '',
-	    		},
-			},
 	  		searchFunction(helper) {
 	    		const container = document.querySelector('#hits');
 	    		container.style.display = helper.state.query === '' ? 'none' : '';
@@ -47,7 +76,9 @@
 			instantsearch.widgets.searchBox({
 				container: '#searchbox',
 				showSubmit: false, 
-				showReset: false
+				showReset: false,
+				placeholder: "Search for movies...",
+	 			autofocus: true,
 			}),
 			instantsearch.widgets.poweredBy({
   				container: '#pba',
@@ -71,7 +102,23 @@
 	    			},
 				},
 
-			})
+			}),
+			instantsearch.widgets.refinementList({
+    			container: '#genre-list',
+    			attribute: 'genre',
+    			operator: 'or',
+  				templates: {
+    				item(item, { html }) {
+      					const { url, label, count, isRefined } = item;
+
+      					return html`
+        				<a href="${url}" style="${isRefined ? 'font-weight: bold' : ''}">
+          				<span>${label} (${count})</span>
+        				</a>
+      					`;
+    				}
+    			}
+ 			}),
 		]);
 		
 
